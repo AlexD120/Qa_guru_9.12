@@ -2,6 +2,7 @@ from selene import Browser, Config
 import pytest
 from selene.support import webdriver
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver import Remote
 
 
 @pytest.fixture(scope='function', autouse=True)
@@ -14,7 +15,9 @@ def browser_config(request):
         "selenoid:options": {"enableVNC": True, "enableVideo": True},
     }
     options.capabilities.update(selenoid_capabilities)
-    driver = webdriver.Remote(
+
+    # Использовать класс Remote из модуля selenium.webdriver, а не selene.support.webdriver
+    driver = Remote(
         command_executor=f"https://user1:1234@selenoid.autotests.cloud/wd/hub",
         options=options,
     )
