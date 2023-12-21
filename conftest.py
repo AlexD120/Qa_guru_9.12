@@ -2,6 +2,7 @@ from selene import browser
 import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+from utils import attach
 
 
 @pytest.fixture(scope='function', autouse=True)
@@ -25,6 +26,11 @@ def browser_config(request):
 
     browser.config.driver = driver
 
-    yield
+    yield browser
+
+    attach.add_screenshot(browser)
+    attach.add_logs(browser)
+    attach.add_html(browser)
+    attach.add_video(browser)
 
     browser.quit()
